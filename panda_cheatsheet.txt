@@ -1,0 +1,197 @@
+Panda’s Cheatsheet
+
+* The first thing that you want to do if you are using pandas is start an import
+* This is your dependency for the code to run if you are using python
+
+----> import pandas as pd
+-------------------------------------------------------------------
+CREATION OF DATA FRAMES
+
+* In pandas we can view data as a series or as a data frame
+* A series is basically a single column and row while a data frame is multiple
+
+----> pd.Series(["some_list"]) --- creates a series 
+
+----> pd.DataFrame("some dictionary") --- creates a data frame
+
+** it is important to note that having a good grasp of making dictionaries is very important because they are used to make data frames 
+-------------------------------------------------------------------
+IMPORTING/EXPORTING DATA SETS - CSV FILES
+
+* It is also very important to note how to get pandas to import and read a csv file
+
+----> from pathlib import Path --- python dependency to read csv
+
+----> variable = Path("../" , "something.csv") --- this saves the path and sets the data set to a variable 
+
+----> set_df_variable = pd.read_csv(csv_var) --- this allows pandas to read the data within the file and simultaneously create a data frame
+
+----> df.to_csv("path/name_of_file", index = False, header = True) --- will export/create a new csv file into the specified path
+-------------------------------------------------------------------
+BASIC PANDAS FUNCTIONS
+
+* Pandas comes with a lot of functions and it is important to get really familiar with them
+
+----> name_of_df.head() --- gives the first five rows of the data frame
+
+----> df.tail() --- gives the last five rows of the data frame
+
+----> df.describe() ---- give the statistical overview of the data frame
+
+----> df["column name"].head() --- will isolate a single column of the data frame 
+
+----> df[["column name", "column name"]] --- will isolate multiple columns of a data frame. furthermore, it is very important that you use double brackets for more than one column
+
+----> df["column name"].mean() --- will give you the mean of a specific column 
+
+----> df["column name"].sum() --- will give you the sum of the data in a specific column 
+
+----> df["column name"].unique() --- will give you all of the unique elements in a data frame. this will also return a list. this is useful when the data inside a column are unique strings such as brands.
+
+----> df["column name"].value_counts --- will give you the count of the unique values in a column
+
+** it is important to note that calculations can be performed on series
+
+----> df["column name"] & operation 
+-------------------------------------------------------------------
+ADDING A COLUMN 
+
+* adding a column is a little tricky but all you need to set a new series equal to an existing column
+
+----> df["new column name"] = df.["column name"]
+-------------------------------------------------------------------
+COLUMN MANIPULATION 
+
+* it is very important to understand how to manipulate columns in order to make it more clear to read certain data
+
+----> df.columns --- gives a list of the column names 
+
+----> reorganized_df = df[["column2", "column1"]] --- this will change the order of your columns. it is important to remember to use double brackets here
+
+----> renamed_columns = df.rename(columns = {"old column": "new column}) --- this will rename a current column using .rename(column = {}). you have to change them in a sort of dictionary fashion with a key.
+-------------------------------------------------------------------
+LOC AND ILOC
+
+* this allows us to easily collect data from specific rows and columns within a data frame
+
+----> new_df = old_df.set_index(“column name”) —- This is responsible for setting a column as the index. It is basically saying that you want this column to be the way that you uniquely identify rows.
+
+----> df.loc["name of row", "name of column"] --- this will return a specific data point within data frame
+
+----> df.iloc[#(row), #(column)] --- does the same thing as loc but you are using integers to find the data point
+
+** you can use loc and iloc to find multiple columns and rows to build a new data frame, you just need to use double brackets
+
+** you can also use ":" to find an array. an empty ":" will search the whole row or column
+-------------------------------------------------------------------
+LOC AND ILOC LOGIC 
+
+* you can use loc and iloc as logic statements in order to find even more specific data. Here are some examples
+
+----> df_variable = df["column name"] == "something" --- will return boolean values if it exists
+
+----> df_variable = df.loc[df["column name"] == "something", :] --- will only return rows where this statement is true
+-------------------------------------------------------------------
+CLEANING DATA
+
+* these are function that are extremely important for cleaning data sets that may have null or useless information
+
+----> del df["column name"] --- will delete an entire column 
+
+----> df.count() --- will identify incomplete rows within columns that may be missing information
+
+----> df = df.dropna(how = "any") --- will drop rows with missing information 
+
+----> df = df.fillna("value") --- allows you to fill na values with a set value
+
+----> df["column name"] = df["column name"].replace({"old column name": "new column name}) --- this will replace a current column name with a new column name. it is important to note that this syntax is similar to python dictionaries 
+-------------------------------------------------------------------
+GROUPBY
+
+* returns an object that can only be accessed by using a data function on it
+
+----> df.groupby(["column name"]) --- makes sort of like a pivot table where all the rows are within that column
+
+----> df.groupby(["column mane", "column name"]) --- allows you to group multiple columns
+-------------------------------------------------------------------
+SORTING 
+
+* sorting allows you to see the data in a particular order 
+
+----> df.sort_values("column name") --- will sort the values from lowest to highest
+
+----> df.sort_values("column name", ascending = False) --- will sort the values from highest to lowest 
+
+* if you want to sort multiple columns then you must add a list into the sort_values function 
+-------------------------------------------------------------------
+MERGING DATAFRAMES
+
+* these functions allow you to merge two separate data frames together. however it is important to note that there is an inner join and outer join. 
+* inner joining two data frames, you must specify a column where to join and it will only output data where the columns match rows
+* outer joining will give you the full set of information
+
+---> pd.merge(df_1, df_2, on = "some column") --- will inner join the two data frames
+
+---> pd.merge(df_1, df_2, on = "some column", how = "outer") --- will outer join the two data frames
+
+---> pd.merge(df_1, df_2, on = "some column", how = "left") --- will prioritize filling the information on df_1 (data frame to the left)
+
+---> pd.merge(df_1, df_2, on = "some column", how = "right") --- will prioritize filling the information on df_2 (data frame to the right)
+-------------------------------------------------------------------
+BINNING
+
+* binning allows you to segment and sort data values into bins 
+* it is useful for when going to a continuous variable (such as a number) to a categorical variable (qualitative variable)
+
+----> df["new column"] = pd.cut(df["column bin"], bins, label = "something", include_lowest = True)
+-------------------------------------------------------------------
+MAPPING
+
+* mapping will take a function and apply it to all numbers
+
+----> df["column name"].map(some function)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
